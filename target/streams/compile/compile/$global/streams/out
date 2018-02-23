@@ -1,0 +1,24 @@
+[0m[[0m[31merror[0m] [0m[0m/media/sf_student/Lab1/app/controllers/HomeController.java:171:1: class, interface, or enum expected[0m
+[0m[[0m[31merror[0m] [0m[0m    public String saveFile(Long id, FilePart<File> uploaded) {[0m
+[0m[[0m[31merror[0m] [0m[0m/media/sf_student/Lab1/app/controllers/HomeController.java:174:1: class, interface, or enum expected[0m
+[0m[[0m[31merror[0m] [0m[0m        if(uploaded != null){[0m
+[0m[[0m[31merror[0m] [0m[0m/media/sf_student/Lab1/app/controllers/HomeController.java:179:1: class, interface, or enum expected[0m
+[0m[[0m[31merror[0m] [0m[0m                String extension = "";[0m
+[0m[[0m[31merror[0m] [0m[0m/media/sf_student/Lab1/app/controllers/HomeController.java:180:1: class, interface, or enum expected[0m
+[0m[[0m[31merror[0m] [0m[0m                int i = fileName.lastIndexOf('.');[0m
+[0m[[0m[31merror[0m] [0m[0m/media/sf_student/Lab1/app/controllers/HomeController.java:181:1: class, interface, or enum expected[0m
+[0m[[0m[31merror[0m] [0m[0m                if(i>=0){[0m
+[0m[[0m[31merror[0m] [0m[0m/media/sf_student/Lab1/app/controllers/HomeController.java:183:1: class, interface, or enum expected[0m
+[0m[[0m[31merror[0m] [0m[0m                }[0m
+[0m[[0m[31merror[0m] [0m[0m/media/sf_student/Lab1/app/controllers/HomeController.java:189:1: class, interface, or enum expected[0m
+[0m[[0m[31merror[0m] [0m[0m                File dir = new FIle("public/images/productImages");[0m
+[0m[[0m[31merror[0m] [0m[0m/media/sf_student/Lab1/app/controllers/HomeController.java:190:1: class, interface, or enum expected[0m
+[0m[[0m[31merror[0m] [0m[0m                if(!dir.exists()){[0m
+[0m[[0m[31merror[0m] [0m[0m/media/sf_student/Lab1/app/controllers/HomeController.java:192:1: class, interface, or enum expected[0m
+[0m[[0m[31merror[0m] [0m[0m                }[0m
+[0m[[0m[31merror[0m] [0m[0m/media/sf_student/Lab1/app/controllers/HomeController.java:198:1: class, interface, or enum expected[0m
+[0m[[0m[31merror[0m] [0m[0m            }else {[0m
+[0m[[0m[31merror[0m] [0m[0m/media/sf_student/Lab1/app/controllers/HomeController.java:200:1: class, interface, or enum expected[0m
+[0m[[0m[31merror[0m] [0m[0m            }[0m
+[0m[[0m[31merror[0m] [0m[0m/media/sf_student/Lab1/app/controllers/HomeController.java:202:1: class, interface, or enum expected[0m
+[0m[[0m[31merror[0m] [0m[0m    } [0m
