@@ -1,11 +1,11 @@
 package controllers;
 
 import play.mvc.*;
-
+import play.mvc.Http.*;
+import play.mvc.Http.MultipartFormData.FilePart;
 import play.api.Environment;
 import play.data.*;
 import play.db.ebean.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -13,6 +13,8 @@ import java.io.File;
 import models.*;
 import models.users.*;
 import views.html.*;
+import org.im4java.core.ConvertCmd;
+import org.im4.java.core.IMOperation;
 
 
 /**
@@ -168,6 +170,8 @@ public class HomeController extends Controller {
 
         return ok(addCustomer.render(customerForm,User.getUserById(session().get("email"))));
     }
+
+
     public String saveFile(Long id, FilePart<File> uploaded) {
         //make sure that the file exists
         String mimeType = uploaded.getContentType();
@@ -176,32 +180,52 @@ public class HomeController extends Controller {
             if(mimeType.startsWith("image/")) {
                 // get the file
                 String fileName = uploaded.getFilename();
-                String extension = "";
-                int i = fileName.lastIndexOf('.');
-                if(i>=0){
-                    extension = fileName.substring(i+1);
-                }
+
+             
                 //save the file object (created without a path, File savers
                 //the content to a default location, usually the temp or tmp
                 //directory)
-                File file =uploaded.getFile();
+                File file = uploaded.getFile();
+                IMOperation op = new IMOperation();
+
+                op.addImage(file.getAbolutePath());
+                //resize the image using height and width saveFileOlf(Long id, FilePart<File> uploaded){
+                op.resize(300, 200);
+                //save the image as a jpg
+                op.addImage("public/images/productImages/" + if + ".jpg");
+                //create another Image Magock operation and repeat the process above to
+                // specify how a thumbnail image should be processed - size 60px
+                IMOperation thumb = new IMOperation();
+                thumb.addImage(file.getAbolutePath())  ;
+                thumb.resize(60);
+                thumb.addImage("public/images/productImages/thumbnails/" + id + ".jpg");
+              
+             
                 //we must make sure that the directory for the images exists before we save it
-                File dir = new FIle("public/images/productImages");
+                File dir = new File("public/images/productImages/thumbnails");
                 if(!dir.exists()){
                     dir.mkdirs();
                 }
-                //move the file to the required location( in a real application
-                // the path to where images are stored would be configurable, but
-                // for the lab we just hard-code it)
-                if(file.renameTo(newFile("public/images/productImages/", id + "." +extensions)))
-                return "/file uploaded";
-            }else {
-                return "/file upload failed";
+
+                // now we create an Image Magick command and execute the operations
+                ConvertCmd cmd = new ConvertCmd();
+                try { 
+                    cmd.run(op);
+                    cmd.run(thumb);
+                } catch(Exception e) {
+
+                    e.printStackTrace();
+
+                }
+                
+                return "and image saved";
+            }
+               
             }
         }return "/no file";
     } 
     
    
 
-}
+
 

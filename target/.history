@@ -147,3 +147,12 @@ run
 exit
 run
 exit
+run
+exit
+clean
+run
+exit
+sbt
+exit
+run
+exit
