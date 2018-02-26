@@ -22,15 +22,15 @@ import play.mvc.Http.Context.Implicit._
 import play.data._
 import play.core.j.PlayFormsMagicForJava._
 
-object index extends _root_.play.twirl.api.BaseScalaTemplate[play.twirl.api.HtmlFormat.Appendable,_root_.play.twirl.api.Format[play.twirl.api.HtmlFormat.Appendable]](play.twirl.api.HtmlFormat) with _root_.play.twirl.api.Template3[List[models.Product],List[models.Category],models.users.User,play.twirl.api.HtmlFormat.Appendable] {
+object index extends _root_.play.twirl.api.BaseScalaTemplate[play.twirl.api.HtmlFormat.Appendable,_root_.play.twirl.api.Format[play.twirl.api.HtmlFormat.Appendable]](play.twirl.api.HtmlFormat) with _root_.play.twirl.api.Template4[List[models.Product],List[models.Category],models.users.User,play.api.Environment,play.twirl.api.HtmlFormat.Appendable] {
 
   /**/
-  def apply/*1.2*/(products: List[models.Product], categories: List[models.Category], user: models.users.User):play.twirl.api.HtmlFormat.Appendable = {
+  def apply/*1.2*/(products: List[models.Product], categories: List[models.Category], user: models.users.User, env: play.api.Environment):play.twirl.api.HtmlFormat.Appendable = {
     _display_ {
       {
 
 
-Seq[Any](format.raw/*1.94*/("""
+Seq[Any](format.raw/*1.121*/("""
 
 """),_display_(/*3.2*/main("Products",user)/*3.23*/ {_display_(Seq[Any](format.raw/*3.25*/("""
 
@@ -57,6 +57,7 @@ Seq[Any](format.raw/*1.94*/("""
       """)))}),format.raw/*25.8*/("""
       """),format.raw/*26.7*/("""<thead>
         <tr>
+          <th>Image</th>
           <th>ID</th>
           <th>Name</th>
           <th>Category</th>
@@ -68,45 +69,48 @@ Seq[Any](format.raw/*1.94*/("""
       </thead>
 
       <tbody>
-        """),_display_(/*39.10*/for(p<-products) yield /*39.26*/ {_display_(Seq[Any](format.raw/*39.28*/("""
-          """),format.raw/*40.11*/("""<tr>
-            <td class="numeric">"""),_display_(/*41.34*/p/*41.35*/.getId),format.raw/*41.41*/("""</td>
-            <td>"""),_display_(/*42.18*/p/*42.19*/.getName),format.raw/*42.27*/("""</td>
-            <td>"""),_display_(/*43.18*/p/*43.19*/.getCategory.getName),format.raw/*43.39*/("""</td>        
-            <td>"""),_display_(/*44.18*/p/*44.19*/.getDescription),format.raw/*44.34*/("""</td>
-            <td  class="numeric">"""),_display_(/*45.35*/p/*45.36*/.getStock),format.raw/*45.45*/("""</td>
-            <td  class="numeric">€ """),_display_(/*46.37*/("%.2f".format(p.getPrice))),format.raw/*46.64*/("""</td>
+        """),_display_(/*40.10*/for(p<-products) yield /*40.26*/ {_display_(Seq[Any](format.raw/*40.28*/("""
+          """),format.raw/*41.11*/("""<tr>
+            """),_display_(/*42.14*/if(env.resource("public/images/productImages/thumbnails/"+p.getId +".jpg").isDefined)/*42.99*/{_display_(Seq[Any](format.raw/*42.100*/("""
+              """),format.raw/*43.15*/("""<td><img src="/assets/images/productImages/thumbnails/"""),_display_(/*43.70*/(p.getId + ".jpg")),format.raw/*43.88*/(""""/></td>
+            """)))}/*44.15*/else/*44.20*/{_display_(Seq[Any](format.raw/*44.21*/("""
+              """),format.raw/*45.15*/("""<td><img src="/assets/images/productImages/thumbnails/noImage/.jpg"/></td>
+            """)))}),format.raw/*46.14*/("""
+            """),format.raw/*47.13*/("""<td class="numeric">"""),_display_(/*47.34*/p/*47.35*/.getId),format.raw/*47.41*/("""</td>
+            <td>"""),_display_(/*48.18*/p/*48.19*/.getName),format.raw/*48.27*/("""</td>
+            <td>"""),_display_(/*49.18*/p/*49.19*/.getCategory.getName),format.raw/*49.39*/("""</td>        
+            <td>"""),_display_(/*50.18*/p/*50.19*/.getDescription),format.raw/*50.34*/("""</td>
+            <td  class="numeric">"""),_display_(/*51.35*/p/*51.36*/.getStock),format.raw/*51.45*/("""</td>
+            <td  class="numeric">€ """),_display_(/*52.37*/("%.2f".format(p.getPrice))),format.raw/*52.64*/("""</td>
             <td>
-              <a href=""""),_display_(/*48.25*/routes/*48.31*/.HomeController.updateProduct(p.getId)),format.raw/*48.69*/("""" class="button xs btn-danger">
+              <a href=""""),_display_(/*54.25*/routes/*54.31*/.HomeController.updateProduct(p.getId)),format.raw/*54.69*/("""" class="button xs btn-danger">
                 <span class="glyphicon glyphicon-pencil"></span>
               </a>
             </td>        <td>
-              <a href=""""),_display_(/*52.25*/routes/*52.31*/.HomeController.deleteProduct(p.getId)),format.raw/*52.69*/("""" class="button xs btn-danger" onclick="return confirmDel();">
+              <a href=""""),_display_(/*58.25*/routes/*58.31*/.HomeController.deleteProduct(p.getId)),format.raw/*58.69*/("""" class="button xs btn-danger" onclick="return confirmDel();">
                 <span class="glyphicon glyphicon-trash"></span>
               </a>
             </td>
           </tr>
-        """)))}),format.raw/*57.10*/("""
-      """),format.raw/*58.7*/("""</tbody>
+        """)))}),format.raw/*63.10*/("""
+      """),format.raw/*64.7*/("""</tbody>
 
     </table>
 
     <p>
-      <a href=""""),_display_(/*63.17*/routes/*63.23*/.HomeController.addProduct()),format.raw/*63.51*/("""">
+      <a href=""""),_display_(/*69.17*/routes/*69.23*/.HomeController.addProduct()),format.raw/*69.51*/("""">
         <button class="btn btn-primary">Add a product</button>
       </a>
     </p>
   </div>
-</div>
-""")))}),format.raw/*69.2*/("""
-"""))
+</div>""")))}))
       }
     }
   }
 
-  def render(products:List[models.Product],categories:List[models.Category],user:models.users.User): play.twirl.api.HtmlFormat.Appendable = apply(products,categories,user)
+  def render(products:List[models.Product],categories:List[models.Category],user:models.users.User,env:play.api.Environment): play.twirl.api.HtmlFormat.Appendable = apply(products,categories,user,env)
 
-  def f:((List[models.Product],List[models.Category],models.users.User) => play.twirl.api.HtmlFormat.Appendable) = (products,categories,user) => apply(products,categories,user)
+  def f:((List[models.Product],List[models.Category],models.users.User,play.api.Environment) => play.twirl.api.HtmlFormat.Appendable) = (products,categories,user,env) => apply(products,categories,user,env)
 
   def ref: this.type = this
 
@@ -115,11 +119,11 @@ Seq[Any](format.raw/*1.94*/("""
 
               /*
                   -- GENERATED --
-                  DATE: Mon Feb 26 11:10:05 GMT 2018
+                  DATE: Mon Feb 26 18:58:36 GMT 2018
                   SOURCE: /home/wdd/webapps/lab1/app/views/index.scala.html
-                  HASH: 6708d5c1e5bf4e8716afa1196e0da0bae4d0727e
-                  MATRIX: 1002->1|1189->93|1217->96|1246->117|1285->119|1313->121|1495->276|1510->282|1555->306|1633->358|1669->378|1709->380|1745->389|1782->399|1797->405|1848->435|1902->462|1912->463|1941->471|1980->482|2028->503|2038->504|2078->523|2136->551|2168->556|2312->674|2353->706|2393->708|2429->717|2501->762|2515->767|2551->782|2587->791|2631->805|2665->812|2959->1079|2991->1095|3031->1097|3070->1108|3135->1146|3145->1147|3172->1153|3222->1176|3232->1177|3261->1185|3311->1208|3321->1209|3362->1229|3420->1260|3430->1261|3466->1276|3533->1316|3543->1317|3573->1326|3642->1368|3690->1395|3764->1442|3779->1448|3838->1486|4035->1656|4050->1662|4109->1700|4329->1889|4363->1896|4438->1944|4453->1950|4502->1978|4635->2081
-                  LINES: 28->1|33->1|35->3|35->3|35->3|37->5|43->11|43->11|43->11|44->12|44->12|44->12|45->13|45->13|45->13|45->13|45->13|45->13|45->13|46->14|46->14|46->14|46->14|48->16|49->17|53->21|53->21|53->21|54->22|55->23|55->23|55->23|56->24|57->25|58->26|71->39|71->39|71->39|72->40|73->41|73->41|73->41|74->42|74->42|74->42|75->43|75->43|75->43|76->44|76->44|76->44|77->45|77->45|77->45|78->46|78->46|80->48|80->48|80->48|84->52|84->52|84->52|89->57|90->58|95->63|95->63|95->63|101->69
+                  HASH: f8031be2f335bc0afc9b6f1defd78f77ecf89f32
+                  MATRIX: 1023->1|1238->120|1266->123|1295->144|1334->146|1362->148|1544->303|1559->309|1604->333|1682->385|1718->405|1758->407|1794->416|1831->426|1846->432|1897->462|1951->489|1961->490|1990->498|2029->509|2077->530|2087->531|2127->550|2185->578|2217->583|2361->701|2402->733|2442->735|2478->744|2550->789|2564->794|2600->809|2636->818|2680->832|2714->839|3033->1131|3065->1147|3105->1149|3144->1160|3189->1178|3283->1263|3323->1264|3366->1279|3448->1334|3487->1352|3528->1375|3541->1380|3580->1381|3623->1396|3742->1484|3783->1497|3831->1518|3841->1519|3868->1525|3918->1548|3928->1549|3957->1557|4007->1580|4017->1581|4058->1601|4116->1632|4126->1633|4162->1648|4229->1688|4239->1689|4269->1698|4338->1740|4386->1767|4460->1814|4475->1820|4534->1858|4731->2028|4746->2034|4805->2072|5025->2261|5059->2268|5134->2316|5149->2322|5198->2350
+                  LINES: 28->1|33->1|35->3|35->3|35->3|37->5|43->11|43->11|43->11|44->12|44->12|44->12|45->13|45->13|45->13|45->13|45->13|45->13|45->13|46->14|46->14|46->14|46->14|48->16|49->17|53->21|53->21|53->21|54->22|55->23|55->23|55->23|56->24|57->25|58->26|72->40|72->40|72->40|73->41|74->42|74->42|74->42|75->43|75->43|75->43|76->44|76->44|76->44|77->45|78->46|79->47|79->47|79->47|79->47|80->48|80->48|80->48|81->49|81->49|81->49|82->50|82->50|82->50|83->51|83->51|83->51|84->52|84->52|86->54|86->54|86->54|90->58|90->58|90->58|95->63|96->64|101->69|101->69|101->69
                   -- GENERATED --
               */
           

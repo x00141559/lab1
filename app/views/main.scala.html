@@ -34,6 +34,9 @@
                 <li>
                     <a href="#">Contact</a>
                 </li>
+                <li @if(title=="Product Details" ){class="active"}>
+                    <a href="#">Product Details</a>
+                </li>
                 <li @if(title=="Login"){class="active"}>
                     @if(user != null) {
                         <a href="@routes.LoginController.logout()">Logout @user.getName()</a>

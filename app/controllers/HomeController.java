@@ -32,9 +32,10 @@ public class HomeController extends Controller {
     private FormFactory formFactory;
     private Environment e;
         @Inject
-        public HomeController(FormFactory f) {
+        public HomeController(FormFactory f, Environment env) {
+            this.e = env;
             this.formFactory = f;
-            this.e - env;
+            
         }
     
         public Result index(Long cat) {
@@ -46,12 +47,12 @@ public class HomeController extends Controller {
             else {
                 productList = Category.find.ref(cat).getProducts();
             }
-            return ok(index.render(productList, categoryList, User.getUserById(session().get("email"))));
+            return ok(index.render(productList, categoryList, User.getUserById(session().get("email")),e));
         }
 
     public Result customer() {
         List<Customer> customerList = Customer.findAll();
-        return ok(customer.render(customerList,User.getUserById(session().get("email")), e));
+        return ok(customer.render(customerList,User.getUserById(session().get("email"))));
     }
     @Security.Authenticated(Secured.class)
     @With(AuthAdmin.class)

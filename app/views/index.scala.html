@@ -39,8 +39,8 @@
       <tbody>
         @for(p<-products) {
           <tr>
-            @if(env.resource("public/images/productImages/thumbnails/@(p.getId +" .jpg").isDefined) {
-              <td><img src="/assets/images/productImages/thumbnails/@(p.getId + " .jpg ")"/></td>
+            @if(env.resource("public/images/productImages/thumbnails/"+p.getId +".jpg").isDefined){
+              <td><img src="/assets/images/productImages/thumbnails/@(p.getId + ".jpg")"/></td>
             } else {
               <td><img src="/assets/images/productImages/thumbnails/noImage/.jpg"/></td>
             }
