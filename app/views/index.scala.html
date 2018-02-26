@@ -1,4 +1,4 @@
-@(products: List[models.Product], categories: List[models.Category], user: models.users.User)
+@(products: List[models.Product], categories: List[models.Category], user: models.users.User, env: play.api.Environment)
 
 @main("Products",user) {
 
@@ -25,6 +25,7 @@
       }
       <thead>
         <tr>
+          <th>Image</th>
           <th>ID</th>
           <th>Name</th>
           <th>Category</th>
@@ -38,6 +39,11 @@
       <tbody>
         @for(p<-products) {
           <tr>
+            @if(env.resource("public/images/productImages/thumbnails/@(p.getId +" .jpg").isDefined) {
+              <td><img src="/assets/images/productImages/thumbnails/@(p.getId + " .jpg ")"/></td>
+            } else {
+              <td><img src="/assets/images/productImages/thumbnails/noImage/.jpg"/></td>
+            }
             <td class="numeric">@p.getId</td>
             <td>@p.getName</td>
             <td>@p.getCategory.getName</td>        
@@ -65,5 +71,4 @@
       </a>
     </p>
   </div>
-</div>
-}
+</div>}

@@ -14,7 +14,7 @@ import models.*;
 import models.users.*;
 import views.html.*;
 import org.im4java.core.ConvertCmd;
-import org.im4.java.core.IMOperation;
+import org.im4java.core.IMOperation;
 
 
 /**
@@ -30,10 +30,11 @@ public class HomeController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     private FormFactory formFactory;
-    
+    private Environment e;
         @Inject
         public HomeController(FormFactory f) {
             this.formFactory = f;
+            this.e - env;
         }
     
         public Result index(Long cat) {
@@ -50,7 +51,7 @@ public class HomeController extends Controller {
 
     public Result customer() {
         List<Customer> customerList = Customer.findAll();
-        return ok(customer.render(customerList,User.getUserById(session().get("email"))));
+        return ok(customer.render(customerList,User.getUserById(session().get("email")), e));
     }
     @Security.Authenticated(Secured.class)
     @With(AuthAdmin.class)
@@ -174,8 +175,8 @@ public class HomeController extends Controller {
 
     public String saveFile(Long id, FilePart<File> uploaded) {
         //make sure that the file exists
-        String mimeType = uploaded.getContentType();
         if(uploaded != null){
+                String mimeType = uploaded.getContentType();
             //make sure that the content is indeed an image
             if(mimeType.startsWith("image/")) {
                 // get the file
@@ -188,21 +189,21 @@ public class HomeController extends Controller {
                 File file = uploaded.getFile();
                 IMOperation op = new IMOperation();
 
-                op.addImage(file.getAbolutePath());
+                op.addImage(file.getAbsolutePath());
                 //resize the image using height and width saveFileOlf(Long id, FilePart<File> uploaded){
                 op.resize(300, 200);
                 //save the image as a jpg
-                op.addImage("public/images/productImages/" + if + ".jpg");
+                op.addImage("public/images/productImages/" + id + ".jpg");
                 //create another Image Magock operation and repeat the process above to
                 // specify how a thumbnail image should be processed - size 60px
                 IMOperation thumb = new IMOperation();
-                thumb.addImage(file.getAbolutePath())  ;
+                thumb.addImage(file.getAbsolutePath());
                 thumb.resize(60);
                 thumb.addImage("public/images/productImages/thumbnails/" + id + ".jpg");
               
              
                 //we must make sure that the directory for the images exists before we save it
-                File dir = new File("public/images/productImages/thumbnails");
+                File dir = new File("public/images/productImages/thumbnails/");
                 if(!dir.exists()){
                     dir.mkdirs();
                 }
@@ -222,7 +223,8 @@ public class HomeController extends Controller {
             }
                
             }
-        }return "/no file";
+            return "/no file";
+        }
     } 
     
    
